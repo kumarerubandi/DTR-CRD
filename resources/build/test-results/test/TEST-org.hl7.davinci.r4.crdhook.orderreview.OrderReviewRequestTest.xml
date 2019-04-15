@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.hl7.davinci.r4.crdhook.orderreview.OrderReviewRequestTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-04-09T12:08:10" hostname="Kumars-MacBook-Pro.local" time="0.012">
+  <properties/>
+  <testcase name="testReadingJson()" classname="org.hl7.davinci.r4.crdhook.orderreview.OrderReviewRequestTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

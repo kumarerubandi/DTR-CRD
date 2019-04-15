@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Fri Apr 12 11:07:14 IST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-016a-100c-c49c-0000231af0e0 
+on database directory /Users/kumarelubandi/WorkSpace/dtr_crd/ehr-server/target/jpaserver_derby_files with class loader java.net.URLClassLoader@43efcf10 
+Loaded from file:/Users/kumarelubandi/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.14.2.0/7efad40ef52fbb1f08142f07a83b42d29e47d8ce/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_192-b12
+user.dir=/Users/kumarelubandi/WorkSpace/dtr_crd/ehr-server
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.14.2
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

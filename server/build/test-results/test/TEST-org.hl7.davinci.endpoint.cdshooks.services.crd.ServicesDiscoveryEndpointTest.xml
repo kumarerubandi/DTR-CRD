@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.hl7.davinci.endpoint.cdshooks.services.crd.ServicesDiscoveryEndpointTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-04-09T12:09:57" hostname="Kumars-MacBook-Pro.local" time="0.048">
+  <properties/>
+  <testcase name="shouldReturnServiceListStu3" classname="org.hl7.davinci.endpoint.cdshooks.services.crd.ServicesDiscoveryEndpointTest" time="0.031"/>
+  <testcase name="shouldReturnServiceListR4" classname="org.hl7.davinci.endpoint.cdshooks.services.crd.ServicesDiscoveryEndpointTest" time="0.016"/>
+  <system-out><![CDATA[2019-04-09 17:39:57.086  INFO 5846 --- [o-auto-1-exec-4] o.h.d.e.c.stu3.CdsHooksController        : stu3/serviceDiscovery
+2019-04-09 17:39:57.117  INFO 5846 --- [o-auto-1-exec-5] o.h.d.e.c.r4.CdsHooksController          : r4/serviceDiscovery
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.11">
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Action.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Card.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/CdsRequest.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/CdsResponse.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/FhirAuthorization.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Hook.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Link.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Prefetch.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Source.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/cdshooks/Suggestion.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/ShortNameMaps.java">
+<error line="9" severity="warning" message="&apos;STATIC_INIT&apos; should be separated from previous statement." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+<error line="16" severity="warning" message="&apos;STATIC_INIT&apos; should be separated from previous statement." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/EncounterBasedServiceContext.java">
+<error line="5" severity="warning" message="&apos;METHOD_DEF&apos; should be separated from previous statement." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/FatalRequestIncompleteException.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/FhirComponentsT.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/PatientInfo.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/PractitionerRoleInfo.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/PrefetchTemplateElement.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/RequestIncompleteException.java">
+<error line="4" column="44" severity="warning" message="Method name &apos;NoSupportedBundlesFound&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/SharedUtilities.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/CrdRequestCreator.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/FhirComponents.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/JacksonBundleDeserializer.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/JacksonHapiSerializer.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/Utilities.java">
+<error line="122" severity="warning" message="Distance between variable &apos;patientAge&apos; declaration and its first usage is 4, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="123" severity="warning" message="Distance between variable &apos;patientId&apos; declaration and its first usage is 5, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/CrdPrefetch.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/CrdPrefetchTemplateElements.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/ServiceContext.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/medicationprescribe/MedicationPrescribeContext.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/medicationprescribe/MedicationPrescribeRequest.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/orderreview/OrderReviewContext.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/r4/crdhook/orderreview/OrderReviewRequest.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/CrdRequestCreator.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/FhirComponents.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/JacksonBundleDeserializer.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/JacksonHapiSerializer.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/Utilities.java">
+<error line="96" severity="warning" message="Distance between variable &apos;patientAge&apos; declaration and its first usage is 4, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="97" severity="warning" message="Distance between variable &apos;patientId&apos; declaration and its first usage is 5, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="126" column="3" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="128" column="39" severity="warning" message="WhitespaceAround: &apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="129" column="47" severity="warning" message="WhitespaceAround: &apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/CrdPrefetch.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/CrdPrefetchTemplateElements.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/ServiceContext.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/medicationprescribe/MedicationPrescribeContext.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/medicationprescribe/MedicationPrescribeRequest.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/orderreview/OrderReviewContext.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/crdhook/orderreview/OrderReviewRequest.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/fhirresources/DaVinciDeviceRequest.java">
+</file>
+<file name="/Users/kumarelubandi/WorkSpace/dtr_crd/resources/src/main/java/org/hl7/davinci/stu3/fhirresources/DaVinciMedicationRequest.java">
+</file>
+</checkstyle>

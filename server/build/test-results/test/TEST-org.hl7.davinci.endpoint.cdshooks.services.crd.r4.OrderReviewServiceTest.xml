@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.hl7.davinci.endpoint.cdshooks.services.crd.r4.OrderReviewServiceTest" tests="3" skipped="3" failures="0" errors="0" timestamp="2019-04-09T12:10:08" hostname="Kumars-MacBook-Pro.local" time="0.0">
+  <properties/>
+  <testcase name="testHandleRequest" classname="org.hl7.davinci.endpoint.cdshooks.services.crd.r4.OrderReviewServiceTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testPrefetchNeededNoFhirServerThrowsError" classname="org.hl7.davinci.endpoint.cdshooks.services.crd.r4.OrderReviewServiceTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testPrefetchNeededNoResourceIdThrowsError" classname="org.hl7.davinci.endpoint.cdshooks.services.crd.r4.OrderReviewServiceTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
