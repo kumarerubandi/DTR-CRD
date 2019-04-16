@@ -831,11 +831,17 @@ public class HomeController {
 	        }
 	        applink.put("url",appLinkURL+"launch?launch="+filename.replace(".json", "")+"&iss="+inputjson.get("fhirServer").toString());
 	        applink.put("type","smart");
+//	        JSONObject appContext = new JSONObject();
 	        JSONObject file_links = new JSONObject();
+	        
+	        if(inputjson.containsKey("service_code")) {
+	        	jsonObj.put("service_code", (String) inputjson.get("service_code"));
+	        }
 	        file_links.put("cql_json","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.json");
 	        file_links.put("cql_file","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.cql");
 	        file_links.put("questionnaire_file","fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3Ahome-oxygen-questionnaire");
-	        applink.put("appContext",file_links);
+	        jsonObj.put("file_links",file_links);
+	        applink.put("appContext",jsonObj);
 	        //	        applink.put("appContext",jsonObj.get("requirements"));
 ////	        applink.put("appContext", filename.replace(".json", ""));
 	        links.add(applink);
