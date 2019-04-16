@@ -629,6 +629,7 @@ public class HomeController {
       JSONObject reqJson = new JSONObject();
       JSONObject patientFhir = new JSONObject();
       System.out.println("673");
+      String cql_name = "";
       try {
     	  file = ResourceUtils.getFile("classpath:config/data.json");
 		  InputStream in = new FileInputStream(file);
@@ -656,8 +657,10 @@ public class HomeController {
     	  patientFhir.put("id",context.get("patientId"));
     	  patientFhir.put("type","collection");
     	  patientFhir.put("entry",entryArray);
-	 
+    	  cql_name = hookList.get(0);
     	  reqJson.put("cql",hookList.get(0));
+    	  System.out.println("CQL name");
+    	  System.out.println(hookList.get(0));
     	  reqJson.put("patientFhir",patientFhir);
     	  System.out.println("reqquirejson -----\n");
     	  System.out.println(reqJson);
@@ -744,30 +747,31 @@ public class HomeController {
     	if (authorization == null || ((tokenResponse != null) && (tokenResponse.get("active").getAsBoolean()))) {    	      	
 	        // execute method and handle any error responses.
     		
-	    	URL url = new URL("http://localhost:4200/execute_cql");
-	        Gson gsonObj = new Gson();
-	        reqJson.put("request_for", "requirements");
-	        String jsonStr = reqJson.toString();
-	        System.out.println(jsonStr);
-	        byte[] postDataBytes = jsonStr.getBytes("UTF-8");
-	        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-	        conn.setRequestMethod("POST");
-	        conn.setRequestProperty("Content-Type", "application/json");
-	        conn.setRequestProperty("Accept","application/json");
-	       if(authorization!= null) {
-		 conn.setRequestProperty("Authorization",authorization);
-	      }  conn.setDoOutput(true);
-	        conn.getOutputStream().write(postDataBytes);
-	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-	        String line =null;
-	        while((line=in.readLine())!= null){
-	          sb.append(line);
-	        }
+//	    	URL url = new URL("http://localhost:4200/execute_cql");
+//	        Gson gsonObj = new Gson();
+//	        reqJson.put("request_for", "requirements");
+//	        String jsonStr = reqJson.toString();
+//	        System.out.println(jsonStr);
+//	        byte[] postDataBytes = jsonStr.getBytes("UTF-8");
+//	        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+//	        conn.setRequestMethod("POST");
+//	        conn.setRequestProperty("Content-Type", "application/json");
+//	        conn.setRequestProperty("Accept","application/json");
+//	       if(authorization!= null) {
+//		 conn.setRequestProperty("Authorization",authorization);
+//	      }  conn.setDoOutput(true);
+//	        conn.getOutputStream().write(postDataBytes);
+//	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+//	        String line =null;
+//	        while((line=in.readLine())!= null){
+//	          sb.append(line);
+//	        }
 	        String basePathOfClass = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
 	        System.out.println("---crd path---");
 	       
 		System.out.println(sb.toString());	        
-	        JSONObject jsonObj = new JSONObject(sb.toString());
+//	        JSONObject jsonObj = new JSONObject(sb.toString());
+			JSONObject jsonObj = new JSONObject();
 	        jsonObj.put("appData", appData);
 	        jsonObj.put("hook", hook);
 	        if(inputjson.containsKey("payerName")) {
@@ -821,14 +825,21 @@ public class HomeController {
 	        if(!inputjson.containsKey("fhirServer")) {
 	        	 throw new RequestIncompleteException("Parameter Missing : key 'fhirServer' is missing in given request");	    
 	        }
+	        System.out.println(cql_name);
+	        if(!cql_name.equals("")) {
+	        	
+	        }
 	        applink.put("url",appLinkURL+"launch?launch="+filename.replace(".json", "")+"&iss="+inputjson.get("fhirServer").toString());
 	        applink.put("type","smart");
-	        applink.put("appContext",jsonObj.get("requirements"));
-//	        applink.put("appContext", filename.replace(".json", ""));
+	        JSONObject file_links = new JSONObject();
+	        file_links.put("cql_json","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.json");
+	        file_links.put("cql_file","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.cql");
+	        file_links.put("questionare_file","fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3Ahome-oxygen-questionnaire");
+	        applink.put("appContext",file_links);
+	        //	        applink.put("appContext",jsonObj.get("requirements"));
+////	        applink.put("appContext", filename.replace(".json", ""));
 	        links.add(applink);
-	        
 	        JSONObject sourceJson = new JSONObject();
-
 	        sourceJson.put("label","CMS Medicare coverage database");
 	        sourceJson.put("url","https://www.cms.gov/medicare-coverage-database/details/ncd-details.aspx?NCDId=70&ncdver=3&bc=AAAAgAAAAAAA&\n");
 	        singleCard.put("links", links);
@@ -839,7 +850,6 @@ public class HomeController {
 	        singleCard.put("detail","The requested procedure needs more documentation to process further");
 	        cards.add(singleCard);
 	        response.put("cards",cards);
-	//        
 	//        System.out.println("cards------\n\n\n");
 	//        System.out.println(cards);
     	   }
@@ -866,7 +876,7 @@ public class HomeController {
 
   }
   
-  
+
   public static String toTitleCase(String input) {
 	    StringBuilder titleCase = new StringBuilder();
 	    boolean nextTitleCase = true;
