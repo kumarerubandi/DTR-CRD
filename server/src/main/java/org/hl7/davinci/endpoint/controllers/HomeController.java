@@ -830,7 +830,7 @@ public class HomeController {
 	        	
 	        }
 //	        applink.put("url",appLinkURL+"launch?launch="+filename.replace(".json", "")+"&iss="+inputjson.get("fhirServer").toString());
-	        applink.put("url","http://localhost:3005");
+	        applink.put("url","http://3.92.187.150:3005");
 
 	        applink.put("type","smart");
 //	        JSONObject appContext = new JSONObject();
