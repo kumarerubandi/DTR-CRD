@@ -1,6 +1,7 @@
 package org.hl7.davinci.endpoint.servlets;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.CorsInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
@@ -10,7 +11,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import org.springframework.web.cors.CorsConfiguration;
-
 
 
 //import fhir.restful.DaVinciAuthInterceptor;
@@ -34,7 +34,7 @@ public class FhirServlet extends RestfulServer {
   @Override
   protected void initialize() throws ServletException {
 
-    FhirContext ctxR4 = FhirContext.forR4();
+    FhirContext ctxR4 = FhirContext.forDstu3();
     setFhirContext(ctxR4);
 
     List<Object> plainProviders = new ArrayList<Object>();
@@ -74,5 +74,11 @@ public class FhirServlet extends RestfulServer {
     // Create the interceptor and register it
     CorsInterceptor interceptor = new CorsInterceptor(config);
     registerInterceptor(interceptor);
+    List<IResourceProvider> resourceProviders = new ArrayList<IResourceProvider>();
+    resourceProviders.add(new RestfulPatientResourceProvider());
+//    List<Object> plainProviders=new ArrayList<Object>();
+//    plainProviders.add(new PlainProvider());
+//    setPlainProviders(plainProviders);
+    setResourceProviders(resourceProviders);
   }
 }
