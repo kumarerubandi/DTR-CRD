@@ -18,6 +18,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 //START SNIPPET: provider
 /**
@@ -35,68 +36,29 @@ public class RestfulPatientResourceProvider implements IResourceProvider {
 		return Patient.class;
 	}
 	
-	/**
-	 * The "@Read" annotation indicates that this method supports the
-	 * read operation. Read operations should return a single resource
-	 * instance. 
-	 * 
-	 * @param theId
-	 *    The read operation takes one parameter, which must be of type
-	 *    IdDt and must be annotated with the "@Read.IdParam" annotation.
-	 * @return 
-	 *    Returns a resource matching this identifier, or null if none exists.
-	 */
-	@Read()
-	public Practitioner getResourceById(@IdParam IdType theId) {
-		Practitioner patient = new Practitioner();
-		patient.addIdentifier()
-		   .setSystem("http://acme.org/mrns")
-		   .setValue("12345");
-//		patient.addName()
-//		   .setFamily("Jameson")
-//		   .addGiven("J")
-//		   .addGiven("Jonah");
-		patient.setGender(AdministrativeGender.MALE);
-		// Give the patient a temporary UUID so that other resources in
-		// the transaction can refer to it
-		patient.setId(theId.getIdPart());
-		return patient;
-	}
-
-	/**
-	 * The "@Search" annotation indicates that this method supports the 
-	 * search operation. You may have many different method annotated with 
-	 * this annotation, to support many different search criteria. This
-	 * example searches by family name.
-	 * 
-	 * @param theFamilyName
-	 *    This operation takes one parameter which is the search criteria. It is
-	 *    annotated with the "@Required" annotation. This annotation takes one argument,
-	 *    a string containing the name of the search criteria. The datatype here
-	 *    is StringParam, but there are other possible parameter types depending on the
-	 *    specific search criteria.
-	 * @return
-	 *    This method returns a list of Patients. This list may contain multiple
-	 *    matching resources, or it may also be empty.
-	 */
-	@Search()
-	public List<Patient> getPatient(@RequiredParam(name = Patient.SP_FAMILY) StringParam theFamilyName) {
-		Patient patient = new Patient();
-		patient.addIdentifier();
-		patient.getIdentifier().get(0).setSystem(("urn:hapitest:mrns"));
-		patient.getIdentifier().get(0).setValue("00001");
-		patient.addName();
-		patient.getName().get(0).setFamily(theFamilyName.getValue());
-		patient.getName().get(0).addGiven("PatientOne");
-		return Collections.singletonList(patient);
-	}
-	
 	
 	@Create
 	public MethodOutcome customMethod (@ResourceParam Patient patient,@ResourceParam String theRawBody) {
-	  System.out.println("IN Custom function ");
 	  System.out.println("IN Custom function "+theRawBody);
-	  
+	  try {
+		  JSONObject reqJson = new JSONObject(theRawBody);
+		  if(reqJson.has("req_contents")){
+			  /*****
+			  STORING ACTUAL CREATED RESOURCE'S DATA  INTO "resourceObj" 
+			  **** */
+			  JSONObject resourceObj = new JSONObject(reqJson.get("req_contents").toString()); 
+//			  System.out.println(resourceObj);			
+			  
+			  
+		  }
+		  
+	  }
+	  catch(JSONException json_ex) {
+	    	 json_ex.printStackTrace();
+	      } 
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	  String abc = "111";
 	  MethodOutcome retVal = new MethodOutcome();
 	  return retVal; // populate this
