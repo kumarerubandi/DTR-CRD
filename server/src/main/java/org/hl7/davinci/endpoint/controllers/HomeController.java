@@ -483,9 +483,9 @@ public class HomeController {
 	    }
       
       String client_Id = "app-token";
-      String client_secret = "237b167a-c4d0-4861-856d-6decf5426022";
-      HttpPost httpPost = new HttpPost("https://3.92.187.150:8443/auth/realms/ProviderCredentials/protocol/openid-connect/token/introspect");
-      List<NameValuePair> params = new ArrayList<NameValuePair>();
+	    String client_secret = "c6b0c305-6968-4a3a-875d-4fd0dcc0cd4f";
+	    HttpPost httpPost = new HttpPost("https://valtest.mettles.com:8443/auth/realms/ClientFhirServer/protocol/openid-connect/token/introspect");
+	    List<NameValuePair> params = new ArrayList<NameValuePair>();
       params.add(new BasicNameValuePair("client_id", client_Id));
       params.add(new BasicNameValuePair("client_secret", client_secret));
       params.add(new BasicNameValuePair("token", token));
@@ -509,12 +509,8 @@ public class HomeController {
 	        tokenResponse = null;
 	      }
   	  }
-      
-     
       StringBuilder sb = new StringBuilder();
       JSONObject responseObj = new JSONObject();
-
-      
       try {
       	if (authorization == null || ((tokenResponse != null) && (tokenResponse.get("active").getAsBoolean()))) {
       	
@@ -538,7 +534,6 @@ public class HomeController {
 //	        else {
 //	        	throw new RequestIncompleteException("Unable to call CDS . token doesn't exist");
 //	        }
-	        
 	        conn.setDoOutput(true);
 	        conn.getOutputStream().write(postDataBytes);
 	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -567,12 +562,10 @@ public class HomeController {
 	        System.out.println("\n\n\\n\n\n\\n\n\n\n\nEXceptionnnnnn");
 	        exception.printStackTrace();
 	    }
-      
-    
 	 String result = responseObj.toString();
 	 return result;
-
   }
+  
   
   protected String getSaltString() {
       String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -594,6 +587,7 @@ public class HomeController {
 	  
 	  System.out.println("------");
       System.out.println(inputjson);
+      System.out.println(headers);
       String referer = "";
       if(headers.containsKey("referer")) {
     	  referer = headers.get("referer");
@@ -604,6 +598,7 @@ public class HomeController {
       Map<String, Object> context = oMapper.convertValue(inputjson.get("context") , Map.class);
       Map<String, Object> orders = oMapper.convertValue(context.get("orders") , Map.class);
 //		      System.out.println(context);
+      List<Object> entryArray = oMapper.convertValue(orders.get("entry") , List.class);
       
       if(context.containsKey("patientId")) {
     	  appData.put("patientId",  context.get("patientId").toString());
@@ -617,6 +612,47 @@ public class HomeController {
       if(context.containsKey("converageId")) {
     	  appData.put("Coverage", context.get("converageId").toString());
       }
+      JSONObject newAppContext = new JSONObject();
+//      entryArray.forEach()
+      try {
+	      for (int entryIndex=0; entryIndex < entryArray.size(); entryIndex++) {
+	    	  System.out.println("Entry Item:");
+	//    	  System.out.println(entryArray.get(entryIndex));
+	
+	//    	  if(entryArray.get(entryIndex).get('resource')) {
+	    	  Map<String, Object> entryResourceObj = oMapper.convertValue(entryArray.get(entryIndex) , Map.class);
+//	    	  System.out.println(oMapper.writeValueAsString(entryResourceObj.get("resource")));
+//	    	  Map<String, Object> entryResource = oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
+	    	  if(entryResourceObj.containsKey("resource")) {
+		    	  JSONObject entryResource =new JSONObject(oMapper.writeValueAsString(entryResourceObj.get("resource")));
+		    	  System.out.println(entryResource.get("resourceType"));
+		    	  if(((String) entryResource.get("resourceType")).equals("DeviceRequest")) {
+		//    		  oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
+		    		  newAppContext.put("request",entryResource);
+//		    		  if(entryResource.has("codeCodeableConcept")) {
+//		    			  JSONObject codeConcept =entryResource.get("codeCodeableConcept");
+//		    			  if(codeConcept.has("coding")) {
+//		    				  JSONArray codeArray = new JSONArray((String) codeConcept.get("coding"));
+//		    				  for(int codeIndex=0; codeIndex < codeArray.length(); codeIndex++) {
+//		    					  System.out.println(codeArray.get(codeIndex));
+//		    				  }
+//		    			  }
+//		    		  }
+		    	  }
+		    	  if(((String) entryResource.get("resourceType")).equals("Patient")) {
+				//    		  oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
+				      newAppContext.put("patient",(String) entryResource.get("id"));
+				   }
+	    	  }
+		    	 
+	    	  
+	//    	  }
+	    	  
+	      }
+      }
+      catch(Exception Ex) {
+    	  Ex.printStackTrace();
+      }
       String hook = "";
       if(inputjson.containsKey("hook")) {
     	  hook  = (String) inputjson.get("hook");
@@ -628,7 +664,7 @@ public class HomeController {
       }
       JSONObject reqJson = new JSONObject();
       JSONObject patientFhir = new JSONObject();
-      System.out.println("673");
+//      System.out.println("673");
       String cql_name = "";
       try {
     	  file = ResourceUtils.getFile("classpath:config/data.json");
@@ -641,7 +677,7 @@ public class HomeController {
 		  JSONObject hookMap = oMapper.convertValue(configData.get("hook_cql_map") , JSONObject.class);
 		  System.out.println(hookMap);
 		  List<String> hookList = oMapper.convertValue(hookMap.get(hook) , List.class);
-		  List<Object> entryArray = oMapper.convertValue(orders.get("entry") , List.class);
+		 
 		  if(context.containsKey("patientId")) {
 			  String patString = " {\n" + 
 				  		"    		  resource:{\n" + 
@@ -705,9 +741,9 @@ public class HomeController {
 	        exception.printStackTrace();
 	    }
       String client_Id = "app-token";
-      String client_secret = "48bf2c3e-2bd6-4f8d-a5ce-2f94adcb7492";
-      HttpPost httpPost = new HttpPost("https://3.92.187.150:8443/auth/realms/ProviderCredentials/protocol/openid-connect/token/introspect");
-      List<NameValuePair> params = new ArrayList<NameValuePair>();
+	    String client_secret = "c6b0c305-6968-4a3a-875d-4fd0dcc0cd4f";
+	    HttpPost httpPost = new HttpPost("https://valtest.mettles.com:8443/auth/realms/ClientFhirServer/protocol/openid-connect/token/introspect");
+	    List<NameValuePair> params = new ArrayList<NameValuePair>();
       params.add(new BasicNameValuePair("client_id", client_Id));
       params.add(new BasicNameValuePair("client_secret", client_secret));
       params.add(new BasicNameValuePair("token", token));
@@ -769,7 +805,7 @@ public class HomeController {
 	        String basePathOfClass = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
 	        System.out.println("---crd path---");
 	       
-		System.out.println(sb.toString());	        
+	        System.out.println(sb.toString());	        
 //	        JSONObject jsonObj = new JSONObject(sb.toString());
 			JSONObject jsonObj = new JSONObject();
 	        jsonObj.put("appData", appData);
@@ -833,7 +869,7 @@ public class HomeController {
 	        applink.put("url","http://3.92.187.150:3005");
 
 	        applink.put("type","smart");
-//	        JSONObject appContext = new JSONObject();
+	        
 	        JSONObject file_links = new JSONObject();
 	        
 	        if(inputjson.containsKey("service_code")) {
@@ -843,7 +879,13 @@ public class HomeController {
 	        file_links.put("cql_file","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.cql");
 	        file_links.put("questionnaire_file","fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3Ahome-oxygen-questionnaire");
 	        jsonObj.put("file_links",file_links);
-	        applink.put("appContext",jsonObj);
+//	        "template=urn:hl7:davinci:crd:home-oxygen-questionnaire_2"
+//	        + "&request={\"resourceType\":\"DeviceRequest\",\"id\":\"devreq013\",\"meta\":{\"profile\":[\"http:\/\/hl7.org\/fhir\/us\/davinci-crd\/STU3\/StructureDefinition\/profile-devicerequest-stu3\"]},\"extension\":[{\"url\":\"http:\/\/build.fhir.org\/ig\/HL7\/davinci-crd\/STU3\/ext-insurance.html\",\"valueReference\":{\"reference\":\"Coverage\/0f58e588-eecd-4ab3-9316-f3d02a3ba39d\"}}],\"status\":\"draft\",\"codeCodeableConcept\":{\"coding\":[{\"system\":\"https:\/\/bluebutton.cms.gov\/resources\/codesystem\/hcpcs\",\"code\":\"E0424\",\"display\":\"Stationary Compressed Gaseous Oxygen System, Rental\"}]},\"subject\":{\"reference\":\"Patient\/f31500e8-15cb-4e8e-8c6e-a001edc6604e\"},\"performer\":{\"reference\":\"PractitionerRole\/f0b0cf14-4066-403f-b217-e92e73c350eb\"}}"
+//	        + "&filepath=../../getfile/cms/hcpcs/E0424";
+	        newAppContext.put("template","urn:hl7:davinci:crd:home-oxygen-questionnaire_2");
+	        newAppContext.put("filepath","../../getfile/cms/hcpcs/E0424");
+	        
+	        applink.put("appContext",newAppContext);
 	        //	        applink.put("appContext",jsonObj.get("requirements"));
 ////	        applink.put("appContext", filename.replace(".json", ""));
 	        links.add(applink);
@@ -1074,8 +1116,8 @@ public class HomeController {
 	    }
 	      
 	    String client_Id = "app-token";
-	    String client_secret = "237b167a-c4d0-4861-856d-6decf5426022";
-	    HttpPost httpPost = new HttpPost("https://3.92.187.150:8443/auth/realms/ProviderCredentials/protocol/openid-connect/token/introspect");
+	    String client_secret = "c6b0c305-6968-4a3a-875d-4fd0dcc0cd4f";
+	    HttpPost httpPost = new HttpPost("https://valtest.mettles.com:8443/auth/realms/ClientFhirServer/protocol/openid-connect/token/introspect");
 	    List<NameValuePair> params = new ArrayList<NameValuePair>();
 	    params.add(new BasicNameValuePair("client_id", client_Id));
 	    params.add(new BasicNameValuePair("client_secret", client_secret));
@@ -1188,7 +1230,7 @@ public class HomeController {
 	    }
 	      
 	    String client_Id = "app-token";
-	    String client_secret = "237b167a-c4d0-4861-856d-6decf5426022";
+	    String client_secret = "48bf2c3e-2bd6-4f8d-a5ce-2f94adcb7492";
 	    HttpPost httpPost = new HttpPost("https://3.92.187.150:8443/auth/realms/ProviderCredentials/protocol/openid-connect/token/introspect");
 	    List<NameValuePair> params = new ArrayList<NameValuePair>();
 	    params.add(new BasicNameValuePair("client_id", client_Id));
@@ -1334,7 +1376,7 @@ public class HomeController {
 		    }
 	      
 	      String client_Id = "app-token";
-	      String client_secret = "237b167a-c4d0-4861-856d-6decf5426022";
+	      String client_secret = "48bf2c3e-2bd6-4f8d-a5ce-2f94adcb7492";
 	      HttpPost httpPost = new HttpPost("https://3.92.187.150:8443/auth/realms/ClientFhirServer/protocol/openid-connect/token/introspect");
 	      List<NameValuePair> params = new ArrayList<NameValuePair>();
 	      params.add(new BasicNameValuePair("client_id", client_Id));
