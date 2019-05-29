@@ -614,45 +614,12 @@ public class HomeController {
       }
       JSONObject newAppContext = new JSONObject();
 //      entryArray.forEach()
-      try {
-	      for (int entryIndex=0; entryIndex < entryArray.size(); entryIndex++) {
-	    	  System.out.println("Entry Item:");
-	//    	  System.out.println(entryArray.get(entryIndex));
-	
-	//    	  if(entryArray.get(entryIndex).get('resource')) {
-	    	  Map<String, Object> entryResourceObj = oMapper.convertValue(entryArray.get(entryIndex) , Map.class);
-//	    	  System.out.println(oMapper.writeValueAsString(entryResourceObj.get("resource")));
-//	    	  Map<String, Object> entryResource = oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
-	    	  if(entryResourceObj.containsKey("resource")) {
-		    	  JSONObject entryResource =new JSONObject(oMapper.writeValueAsString(entryResourceObj.get("resource")));
-		    	  System.out.println(entryResource.get("resourceType"));
-		    	  if(((String) entryResource.get("resourceType")).equals("DeviceRequest")) {
-		//    		  oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
-		    		  newAppContext.put("request",entryResource);
-//		    		  if(entryResource.has("codeCodeableConcept")) {
-//		    			  JSONObject codeConcept =entryResource.get("codeCodeableConcept");
-//		    			  if(codeConcept.has("coding")) {
-//		    				  JSONArray codeArray = new JSONArray((String) codeConcept.get("coding"));
-//		    				  for(int codeIndex=0; codeIndex < codeArray.length(); codeIndex++) {
-//		    					  System.out.println(codeArray.get(codeIndex));
-//		    				  }
-//		    			  }
-//		    		  }
-		    	  }
-		    	  if(((String) entryResource.get("resourceType")).equals("Patient")) {
-				//    		  oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
-				      newAppContext.put("patient",(String) entryResource.get("id"));
-				   }
-	    	  }
-		    	 
-	    	  
-	//    	  }
-	    	  
-	      }
-      }
-      catch(Exception Ex) {
-    	  Ex.printStackTrace();
-      }
+//      try {
+//		  
+//      }
+//      catch(Exception Ex) {
+//    	  Ex.printStackTrace();
+//      }
       String hook = "";
       if(inputjson.containsKey("hook")) {
     	  hook  = (String) inputjson.get("hook");
@@ -672,11 +639,58 @@ public class HomeController {
 		  String jsonTxt = IOUtils.toString(in, StandardCharsets.UTF_8);
 		  JSONObject configData = new JSONObject(jsonTxt);
 		  
-//		  System.out.println("configData:\n"+ configData.get("hook_cql_map"));
 		  
 		  JSONObject hookMap = oMapper.convertValue(configData.get("hook_cql_map") , JSONObject.class);
+		  JSONObject hcpcTemplateMap  = oMapper.convertValue(configData.get("hcpc_template_mapper") , JSONObject.class);
+
+	      for (int entryIndex=0; entryIndex < entryArray.size(); entryIndex++) {
+//	    	  System.out.println("Entry Item:");
+	
+	    	  Map<String, Object> entryResourceObj = oMapper.convertValue(entryArray.get(entryIndex) , Map.class);
+	    	  if(entryResourceObj.containsKey("resource")) {
+		    	  JSONObject entryResource =new JSONObject(oMapper.writeValueAsString(entryResourceObj.get("resource")));
+//		    	  System.out.println(entryResource.get("resourceType"));
+		    	  if(((String) entryResource.get("resourceType")).equals("DeviceRequest")) {
+		    		  newAppContext.put("request",entryResource);
+		    		  if(entryResource.has("codeCodeableConcept")) {
+//		    			  System.out.println("entryResource.has");
+//		    			  System.out.println(entryResource.get("codeCodeableConcept"));
+		    			  JSONObject codeConcept = new JSONObject(entryResource.get("codeCodeableConcept").toString());
+		    			  
+		    			  if(codeConcept.has("coding")) {
+		    				  JSONArray codeArray = new JSONArray(codeConcept.get("coding").toString());
+		    				  for(int codeIndex=0; codeIndex < codeArray.length(); codeIndex++) {
+//		    					  System.out.println(codeArray.get(codeIndex));
+		    					  JSONObject codeItem = new JSONObject(codeArray.get(codeIndex).toString());
+		    					  if(codeItem.has("code")) {
+		    						  String hcpcCode = (String) codeItem.get("code");
+//		    						  System.out.println("hcpcCode: "+ hcpcCode);
+//		    						  System.out.println( hcpcTemplateMap.has(hcpcCode));
+		    						  if(hcpcTemplateMap.has(hcpcCode)) {
+		    							  newAppContext.put("template","urn:hl7:davinci:crd:"+(String) hcpcTemplateMap.get(hcpcCode));
+		    							  newAppContext.put("prior_auth",true);
+		    						  }
+		    						  else {
+		    							  newAppContext.put("prior_auth",false);
+		    						  }
+		    						  
+		    					  }
+		    				  }
+		    			  }
+		    		  }
+		    	  }
+		    	  if(((String) entryResource.get("resourceType")).equals("Patient")) {
+				//    		  oMapper.convertValue(entryResourceObj.get("resource") , Map.class);
+				      newAppContext.put("patient",(String) entryResource.get("id"));
+				   }
+	    	  }
+		    	 
+	    	  
+	//    	  }
+	    	  
+	      }
 		  System.out.println(hookMap);
-		  List<String> hookList = oMapper.convertValue(hookMap.get(hook) , List.class);
+//		  List<String> hookList = oMapper.convertValue(hookMap.get(hook) , List.class);
 		 
 		  if(context.containsKey("patientId")) {
 			  String patString = " {\n" + 
@@ -693,10 +707,10 @@ public class HomeController {
     	  patientFhir.put("id",context.get("patientId"));
     	  patientFhir.put("type","collection");
     	  patientFhir.put("entry",entryArray);
-    	  cql_name = hookList.get(0);
-    	  reqJson.put("cql",hookList.get(0));
-    	  System.out.println("CQL name");
-    	  System.out.println(hookList.get(0));
+//    	  cql_name = hookList.get(0);
+//    	  reqJson.put("cql",hookList.get(0));
+//    	  System.out.println("CQL name");
+//    	  System.out.println(hookList.get(0));
     	  reqJson.put("patientFhir",patientFhir);
     	  System.out.println("reqquirejson -----\n");
     	  System.out.println(reqJson);
@@ -861,12 +875,12 @@ public class HomeController {
 	        if(!inputjson.containsKey("fhirServer")) {
 	        	 throw new RequestIncompleteException("Parameter Missing : key 'fhirServer' is missing in given request");	    
 	        }
-	        System.out.println(cql_name);
-	        if(!cql_name.equals("")) {
-	        	
-	        }
+//	        System.out.println(cql_name);
+//	        if(!cql_name.equals("")) {
+//	        	
+//	        }
 //	        applink.put("url",appLinkURL+"launch?launch="+filename.replace(".json", "")+"&iss="+inputjson.get("fhirServer").toString());
-	        applink.put("url","http://3.92.187.150:3005");
+	        applink.put("url","http://3.92.187.150:3005/launch");
 
 	        applink.put("type","smart");
 	        
@@ -875,15 +889,14 @@ public class HomeController {
 	        if(inputjson.containsKey("service_code")) {
 	        	jsonObj.put("service_code", (String) inputjson.get("service_code"));
 	        }
-	        file_links.put("cql_json","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.json");
-	        file_links.put("cql_file","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.cql");
-	        file_links.put("questionnaire_file","fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3Ahome-oxygen-questionnaire");
-	        jsonObj.put("file_links",file_links);
+//	        file_links.put("cql_json","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.json");
+//	        file_links.put("cql_file","/fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3A"+cql_name+"_requirements.cql");
+//	        file_links.put("questionnaire_file","fetchFhirUri/urn%3Ahl7%3Adavinci%3Acrd%3Ahome-oxygen-questionnaire");
+//	        jsonObj.put("file_links",file_links);
 //	        "template=urn:hl7:davinci:crd:home-oxygen-questionnaire_2"
 //	        + "&request={\"resourceType\":\"DeviceRequest\",\"id\":\"devreq013\",\"meta\":{\"profile\":[\"http:\/\/hl7.org\/fhir\/us\/davinci-crd\/STU3\/StructureDefinition\/profile-devicerequest-stu3\"]},\"extension\":[{\"url\":\"http:\/\/build.fhir.org\/ig\/HL7\/davinci-crd\/STU3\/ext-insurance.html\",\"valueReference\":{\"reference\":\"Coverage\/0f58e588-eecd-4ab3-9316-f3d02a3ba39d\"}}],\"status\":\"draft\",\"codeCodeableConcept\":{\"coding\":[{\"system\":\"https:\/\/bluebutton.cms.gov\/resources\/codesystem\/hcpcs\",\"code\":\"E0424\",\"display\":\"Stationary Compressed Gaseous Oxygen System, Rental\"}]},\"subject\":{\"reference\":\"Patient\/f31500e8-15cb-4e8e-8c6e-a001edc6604e\"},\"performer\":{\"reference\":\"PractitionerRole\/f0b0cf14-4066-403f-b217-e92e73c350eb\"}}"
 //	        + "&filepath=../../getfile/cms/hcpcs/E0424";
-	        newAppContext.put("template","urn:hl7:davinci:crd:home-oxygen-questionnaire_2");
-	        newAppContext.put("filepath","../../getfile/cms/hcpcs/E0424");
+//	        newAppContext.put("template","urn:hl7:davinci:crd:home-oxygen-questionnaire_2");
 	        
 	        applink.put("appContext",newAppContext);
 	        //	        applink.put("appContext",jsonObj.get("requirements"));
