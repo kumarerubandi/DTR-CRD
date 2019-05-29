@@ -18,5 +18,22 @@
 			"has_patient_field":true
 		}
 	},
+	"hcpc_template_mapper":{
+	 "E1390": "home-oxygen-questionnaire_2",
+     "E1391": "home-oxygen-questionnaire_2",
+     "E0424": "home-oxygen-questionnaire_2",
+     "E0439": "home-oxygen-questionnaire_2",
+     "E1405": "home-oxygen-questionnaire_2",
+     "E1406": "home-oxygen-questionnaire_2",
+     "E0431": "home-oxygen-questionnaire_2",
+     "E0434": "home-oxygen-questionnaire_2",
+     "E1392": "home-oxygen-questionnaire_2",
+     "E0433": "home-oxygen-questionnaire_2",
+     "K0738": "home-oxygen-questionnaire_2",
+     "E0441": "home-oxygen-questionnaire_2",
+     "E0442": "home-oxygen-questionnaire_2",
+     "E0443": "home-oxygen-questionnaire_2",
+     "E0444": "home-oxygen-questionnaire_2",
+	},
 	"patient_view_service_label":"Mettle solutions patient view service"
 }
